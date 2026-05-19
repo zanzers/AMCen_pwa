@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { API_URL } from "../../api/api";
+import { Turnstile }
+from "react-turnstile";
+
+
+
+console.log(import.meta.env);
 
 export default function Register() {
 
@@ -10,6 +16,8 @@ export default function Register() {
     email: "",
     password: "",
   });
+
+  const [captchaToken, setCaptchaToken] = useState("");
 
   const handleChange = (e) => {
 
@@ -24,12 +32,18 @@ export default function Register() {
 
     try {
 
+      if(!captchaToken){
+        alert("Please verify you are human");
+        return;
+      }
+
       const res = await fetch(
         API_URL,
         {
           method: "POST",
           body: JSON.stringify({
             action: "registerUser",
+            captchaToken,
             ...form,
           }),
         }
@@ -91,12 +105,26 @@ export default function Register() {
         onChange={handleChange}
       />
 
+      <Turnstile
+      
+        sitekey="0x4AAAAAADSAzCI9q-ZaDdPu"
+        options={{
+          apperance: "always"
+        }}
+        onVerify={(token) => {
+          console.log(token)
+          setCaptchaToken(token);
+        }}
+        />
+
         <button
           onClick={registerUser}
           className="w-full bg-black text-white p-2 rounded"
         >
           Register
         </button>
+
+      
 
       </div>
 
