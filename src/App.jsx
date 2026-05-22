@@ -1,6 +1,19 @@
-// import Router from "./router/Router";
-import Home from "./pages/home";
+import { Routes, Route } from "react-router-dom";
 
-export default function App(){
-    return <Home />
+import LandingPage from "./pages/home";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+
+export default function App() {
+  return (
+    <Routes>
+
+      <Route path="/" element={<LandingPage />} />
+
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/register" element={<Register />} />
+
+    </Routes>
+  );
 }
