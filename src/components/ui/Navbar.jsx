@@ -1,6 +1,6 @@
 
 
-import AMCenLogo from "../assets/image/AMCen_logo.png";
+import AMCenLogo from "../../assets/image/AMCen_logo.png";
 import { useNavigate } from "react-router-dom";
 
 
@@ -53,14 +53,14 @@ export default function Navbar() {
 
             <button
               onClick={() => navigate("/login")}
-              className="cursor-[url(hand.cur),pointer] text-sm tracking-wider hover:opacity-70 transition"
+              className="text-sm tracking-wider hover:opacity-70 transition"
             >
               Sign In
             </button>
 
             <button
               onClick={() => navigate("/register")}
-              className="cursor-[url(hand.cur),pointer] text-[12px] rounded-lg border border-black px-5 py-2 tracking-wider bg-black text-white"
+              className="text-[12px] rounded-lg border border-black px-5 py-2 tracking-wider bg-black text-white"
             >
               Sign Up
             </button>

@@ -5,7 +5,7 @@ import { Turnstile } from "react-turnstile";
 
 import FloatingInput from "../../components/ui/FloatingInput";
 import GoogleIcon from "../../components/svg_components/googleIcons";
-import Success_Register from "../../pages/client/SuccessReg";
+import Success_Register from "../../components/ui/SuccessReg";
 
 export default function Register() {
 

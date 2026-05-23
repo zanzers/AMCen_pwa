@@ -1,5 +1,5 @@
 import HerosSection from "../sections/Herosectios";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/ui/Navbar";
 
 
 export default function Home(){
