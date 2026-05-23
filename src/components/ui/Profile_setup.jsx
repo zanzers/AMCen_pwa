@@ -5,16 +5,90 @@ import Profile_Image from "../mini_pages/Profile_Image";
 import Profile_Describe from "../mini_pages/Profile_describe";
 import ProfileComplete from "../mini_pages/Profile_finish";
 
+import { API_URL  } from "../../api/api";
 
 export default function Profile_setup() {
 
   const [step, setStep ] = useState(1);
   const [profile, setProfile] = useState({
     fullName: "",
-    profileImage: null,
+    profileImgId: "",
     usageType: "",}
   )
+const finishProfile = async() => {
 
+  try {
+
+    const user = JSON.parse(
+      localStorage.getItem("amcen_user")
+    );
+
+    let profileImgId = profile.profileImgId;
+
+    // UPLOAD IMAGE FIRST
+    if(profile.profileImgId?.type === "uploaded"){
+
+      const uploadedRes = await fetch(
+        API_URL,
+        {
+          method:"POST",
+          body:JSON.stringify({
+            action:"uploadProfileImage",
+            userId:user.user.userId,
+            image:profile.profileImgId.image
+          })
+        }
+      );
+
+      console.log(
+        "user",
+        user.user.userId
+      );
+
+      const uploadedData = await uploadedRes.json();
+
+      console.log(uploadedData);
+
+      profileImgId = uploadedData.profileImgId;
+
+    }
+
+    // UPDATE PROFILE
+    const res = await fetch(
+      API_URL,
+      {
+        method:"POST",
+        body:JSON.stringify({
+          action:"updateProfile",
+
+          userId:user.user.userId,
+
+          fullName:profile.fullName,
+
+          profileImgId:profileImgId,
+
+          usageType:profile.usageType,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    console.log(data);
+
+    if(data.success){
+
+      setStep(4);
+
+    }
+
+  } catch(err){
+
+    console.error(err);
+
+  }
+
+};
   
   return (
 
@@ -34,7 +108,7 @@ export default function Profile_setup() {
 
       {
         step == 3 && (
-            <Profile_Describe user={profile} setProfile={setProfile} step={setStep}/>
+            <Profile_Describe user={profile} setProfile={setProfile} step={setStep} complete={finishProfile}/>
         )
       }
       {

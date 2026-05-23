@@ -143,10 +143,21 @@ export default function Profile_Image({ user,userProfile, step }) {
                         Cancel
                 </button>
 
-                <button onClick={async () => { const croppedImage = await getCroppedImg(); setFinalImage(croppedImage); setEditingImage(null); }}
+                <button onClick={async () => { const croppedImage = await getCroppedImg(); 
+                setFinalImage(croppedImage); 
+                console.log("Image", croppedImage);
+                userProfile({
+                    ...user,
+                    profileImgId:{
+                        type: "uploaded",
+                        image: croppedImage,
+                    },
+                });
+                setEditingImage(null); }}
                         className=" px-5 h-10 rounded-xl  bg-black  text-white text-sm hover:opacity-90 transition">
                         Use Photo
                 </button>
+
 
               </div>
             </>
@@ -207,7 +218,7 @@ export default function Profile_Image({ user,userProfile, step }) {
                         
                         userProfile({
                             ...user,
-                            ProfileImage:generated,
+                            profileImgId:generated,
                         });
 
                         step(3);

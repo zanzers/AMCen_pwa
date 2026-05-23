@@ -1,7 +1,8 @@
 export default function Profile_Describe({
   setProfile,
   user,
-  step
+  step,
+  complete
 }) {
 
   const options = [
@@ -101,7 +102,7 @@ export default function Profile_Describe({
           </button>
 
           {/* FINISH */}
-          <button onClick={() => step(4)}
+          <button onClick={complete}
             className="
               px-6
               h-8
