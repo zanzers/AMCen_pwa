@@ -1,6 +1,6 @@
-export default function AMCenLogo() {
+export default function AMCenLogo({ width}) {
   return (
-   <svg width="107" height="122" viewBox="0 0 107 122" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <svg width={width ? "60" : "102" } height= "122" viewBox="0 0 107 122" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M96.1055 51H42.0986L19.8936 2.9668L73.9014 2.5127L96.1055 51Z" stroke="black" stroke-width="5"/>
     <path d="M80.3828 17.7539H25.7715L3.64551 65H58.7168L80.3828 17.7539Z" stroke="black" stroke-width="4"/>
     <path d="M27.3467 114.5H81.3809L103.153 65.9678L49.1191 65.5127L27.3467 114.5Z" stroke="black" stroke-width="5"/>
