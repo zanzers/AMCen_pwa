@@ -1,4 +1,4 @@
-import FloatingInput from "../ui/FloatingInput";
+import FloatingInput from "../../components/ui/FloatingInput";
 
 export default function Profile_Name({user, userProfile, step}){
     return(

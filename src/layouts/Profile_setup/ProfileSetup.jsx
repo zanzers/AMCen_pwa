@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import Profile_Name from "../mini_pages/Profile_name";
-import Profile_Image from "../mini_pages/Profile_Image";
-import Profile_Describe from "../mini_pages/Profile_describe";
-import ProfileComplete from "../mini_pages/Profile_finish";
+import Profile_Name from "./ProfileName";
+import Profile_Image from "./ProfileImage";
+import Profile_Describe from "./ProfileDescribe";
+import ProfileComplete from "./ProfileComplete";
 
 import { API_URL  } from "../../api/api";
 

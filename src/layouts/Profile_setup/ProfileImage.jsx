@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
-import GenerateImage from "../ui/GenerateImage";
+import GenerateImage from "../../utils/GenerateImage";
 
 export default function Profile_Image({ user,userProfile, step }) {
 

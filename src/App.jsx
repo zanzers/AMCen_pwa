@@ -3,9 +3,9 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Profile_setup from "./components/ui/Profile_setup";
+import Profile_setup from "./layouts/Profile_setup/ProfileSetup";
 import Dashboard from "./pages/client/Dashboard";
-import ProfileComple from "./components/mini_pages/Profile_finish";
+import ProfileComple from "./layouts/Profile_setup/ProfileComplete";
 
 export default function App() {
   return (
