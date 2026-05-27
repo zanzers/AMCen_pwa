@@ -3,12 +3,14 @@
 @import "tailwindcss";
 
 
-*,
-body{
+*{
   font-family: "Space Grotesk", sans-serif;
-  background-color: #F0EFEC;
+  
 }
 
+.Doto{
+  font-family: "Doto", sans-serif;
+}
 
 @keyframes spin-once {
 
@@ -35,4 +37,9 @@ body{
 
 button {
   cursor: url("/hand.cur"), pointer;
+}
+
+.custom-header{
+  background-color: #FDFDFB;
+  border-bottom: 1px solid #c4c4c4;
 }

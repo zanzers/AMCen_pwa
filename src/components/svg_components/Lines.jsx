@@ -1,0 +1,11 @@
+export default function Lines() {
+  return (
+   <svg width="5" height="35" viewBox="0 0 5 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2.5 0V30.4211" stroke="#D71414" stroke-width="5"/>
+    <path d="M0.5 34H4.5" stroke="#ffa827" stroke-width="2"/>
+    </svg>
+
+
+  );
+}
+
