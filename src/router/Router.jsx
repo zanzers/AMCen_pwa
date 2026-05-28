@@ -6,7 +6,8 @@ import {
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
-import  Upload from "../pages/uploads/Upload";
+import Upload from "../pages/uploads/Upload";
+import Checkout from "../pages/client/tabs/Checkout";
 
 export default function Router() {
 
@@ -28,6 +29,11 @@ export default function Router() {
                 <Route
                 path="/upload"
                 element={<Upload />}
+                />
+
+                <Route
+                path="/checkout/:orderId"
+                element={<Checkout />}
                 />
 
             </Routes>

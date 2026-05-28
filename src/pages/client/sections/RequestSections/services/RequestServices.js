@@ -1,7 +1,6 @@
 import { API_URL } from "../../../../../api/api";
 
-
-// REQUEST MATERAIALS AND PRINTERS
+// REQUEST MATERIALS AND PRINTERS
 export async function RequestData(action="getProductionData", payload={}) {
 
     try{
@@ -24,7 +23,7 @@ export async function RequestData(action="getProductionData", payload={}) {
 
 
 
-export async function handleSaveRequest({ uploadedFile, selectedMaterial, quantity, setLoading}) {
+export async function handleSaveRequest({ uploadedFile, selectedMaterial, quantity, setLoading, navigate }) {
   try {
     if (!uploadedFile) {
       alert("Please upload STL file");
@@ -60,12 +59,16 @@ export async function handleSaveRequest({ uploadedFile, selectedMaterial, quanti
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
-
     const data = await res.json();
     console.log("Saved:", data);
 
-    if (!data.success) throw new Error(data.message || "Upload failed");
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || `Upload failed: ${res.status}`);
+    }
+
+    if (navigate) {
+      navigate(`/checkout/${data.orderId}`);
+    }
 
     alert("Request Saved");
     return data;
@@ -80,15 +83,11 @@ export async function handleSaveRequest({ uploadedFile, selectedMaterial, quanti
 
 
 async function fileToBase64(file) {
-
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-
     reader.readAsDataURL(file);
-
     reader.onload = () =>
       resolve(reader.result);
-
     reader.onerror = reject;
   });
 }

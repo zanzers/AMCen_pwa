@@ -6,6 +6,7 @@ import Register from "./pages/auth/Register";
 import Profile_setup from "./layouts/Profile_setup/ProfileSetup";
 import Dashboard from "./pages/client/Dashboard";
 import ProfileComple from "./layouts/Profile_setup/ProfileComplete";
+import Checkout from "./pages/client/tabs/Checkout";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
       <Route path="/user/profile-setup" element={<Profile_setup />} />
       <Route path="/user/ProfileComple" element={<ProfileComple />} />
       <Route path="/user/Dashboard" element={<Dashboard />} />
+      <Route path="/checkout/:orderId" element={<Checkout />} />
 
 
 
