@@ -1,7 +1,7 @@
 import {useState} from "react";
 import Lines from "../../../components/svg_components/Lines";
-import RequestSetting from "../sections/RequestSections/RequestSetting";
-import UploadRequest from "../sections/RequestSections/UploadRequest";
+import RequestSetting from "../sections/RequestComponents/RequestSetting";
+import UploadRequest from "../sections/RequestComponents/UploadRequest";
 
 
 export default function Request() {

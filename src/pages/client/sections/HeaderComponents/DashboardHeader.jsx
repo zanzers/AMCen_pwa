@@ -1,6 +1,6 @@
 import { Bell, Settings} from "lucide-react";
 import AMCenLogo from "../../../../components/svg_components/AMCenIcons";
-import HeaderTab from "../HeaderSections/HeaderTab";
+import HeaderTab from "../HeaderComponents/HeaderTab";
 
 export default function DashboardHeader({activeTab, setActivateTab}) {
   return (

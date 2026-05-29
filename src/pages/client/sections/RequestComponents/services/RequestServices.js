@@ -1,7 +1,7 @@
 import { API_URL } from "../../../../../api/api";
 
 // REQUEST MATERIALS AND PRINTERS
-export async function RequestData(action="getProductionData", payload={}) {
+export async function RequestData(action, payload={}) {
 
     try{
         const res = await fetch(
@@ -65,7 +65,8 @@ export async function handleSaveRequest({ uploadedFile, selectedMaterial, quanti
     if (!res.ok || !data.success) {
       throw new Error(data.message || `Upload failed: ${res.status}`);
     }
-
+    
+    
     if (navigate) {
       navigate(`/checkout/${data.orderId}`);
     }
@@ -91,3 +92,20 @@ async function fileToBase64(file) {
     reader.onerror = reject;
   });
 }
+
+
+
+
+
+// discount : 0
+// estimatedCost: 127.19101444625805
+// estimatedHours: 2.1198502407709676
+// fileName: "Arcle.stl"
+// grandTotal: 187.19101444625807
+// material: "TPU"
+// materialCost: 60
+// orderId: "ORD-0018"
+// printer: "Ender 3"
+// quantity: 1
+// subtotal: 187.19101444625807
+// userName: "Nowell Saavedra"

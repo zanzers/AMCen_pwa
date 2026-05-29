@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import DashboardHeader from "./sections/HeaderSections/DashboardHeader";
+import DashboardHeader from "./sections/HeaderComponents/DashboardHeader";
 import HomeTab from "./tabs/Home";
 import RequestTab from "./tabs/Request";
 import OrderTab from "./tabs/Order";
@@ -10,7 +10,14 @@ import InboxTab from "./tabs/Inbox";
 
 export default function Dashboar(){
 
-    const [activeTab, setActivateTab] = useState("Home");
+    const [activeTab, setActivateTab] = useState(() => {
+        const savedTab = sessionStorage.getItem("activeTab");
+        if (savedTab) {
+            sessionStorage.removeItem("activeTab");
+            return savedTab;
+        }
+        return "Home";
+    });
 
     const renderTab = () => {
         switch(activeTab){

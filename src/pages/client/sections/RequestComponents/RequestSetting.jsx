@@ -2,6 +2,8 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { RequestData, handleSaveRequest } from "./services/RequestServices";
+import {RoundUp} from "../../../../utils/helpers";
+
 
 export default function RequestSetting({ uploadedFile, modelData }) {
 
@@ -9,15 +11,14 @@ export default function RequestSetting({ uploadedFile, modelData }) {
   const [catalog, setCatalog] = useState({ printers: [], materials: [] });
   const [formData, setFormData] = useState({selectedPrinter: "", selectedMaterial: "", quantity: 1, discount: 0,});
   const [loading, setLoading] = useState(false);  
-  const estimatedHours = useMemo(() => modelData?.estimatedHours || 0, [modelData?.estimatedHours]);
-  const estimatedCost = useMemo(() => modelData?.estimatedCost || 0, [modelData?.estimatedCost]);
 
-
+  const estimatedHours = useMemo(() => RoundUp(modelData?.estimatedHours || 0 ),[modelData?.estimatedHours]);
+  const estimatedCost = useMemo(() => RoundUp(modelData?.estimatedCost || 0), [modelData?.estimatedCost]);
 
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await RequestData();
+      const data = await RequestData("getProductionData");
       if (!data) return;
       
       setCatalog({
@@ -30,14 +31,19 @@ export default function RequestSetting({ uploadedFile, modelData }) {
   }, []);
 
 
-  const selectedMaterialData = useMemo( () => catalog.materials.find((m) => m.materialId === formData.selectedMaterial),
-    [catalog.materials, formData.selectedMaterial]);
+  const selectedMaterialData = useMemo(
+    () =>
+      catalog.materials.find(
+        (m) => String(m.materialId) === String(formData.selectedMaterial)
+      ),
+    [catalog.materials, formData.selectedMaterial]
+  );
 
   const materialCost = useMemo(() => Number(selectedMaterialData?.cost || 0), [selectedMaterialData]);
   
   const pricing = useMemo(() => {
-    const subtotal = (materialCost + estimatedCost) * formData.quantity;
-    const grandTotal = subtotal - formData.discount;
+    const subtotal = RoundUp(materialCost + estimatedCost) * formData.quantity;
+    const grandTotal = RoundUp(subtotal - formData.discount);
     return { subtotal, grandTotal };
   }, [materialCost, estimatedCost, formData.quantity, formData.discount]);
 
@@ -48,16 +54,33 @@ export default function RequestSetting({ uploadedFile, modelData }) {
 
   const navigate = useNavigate();
 
-  const handleSave = useCallback(() => {
-    handleSaveRequest({
+  const handleSave = useCallback(async () => {
+    const result = await handleSaveRequest({
       uploadedFile,
       selectedMaterial: formData.selectedMaterial,
       quantity: formData.quantity,
       setLoading,
-      navigate,
     });
-  }, [uploadedFile, formData.selectedMaterial, formData.quantity, navigate]);
 
+    if (!result?.success) return;
+
+    const session = JSON.parse(localStorage.getItem("amcen_user"));
+    const checkoutData = buildCheckoutData(
+      result,
+      session,
+      uploadedFile,
+      formData,
+      selectedMaterialData,
+      estimatedHours,
+      estimatedCost,
+      materialCost,
+      pricing
+    );
+
+    sessionStorage.setItem("checkout_data", JSON.stringify(checkoutData));
+    navigate(`/checkout/${result.orderId}`);
+
+}, [uploadedFile, formData, selectedMaterialData, estimatedHours, estimatedCost, materialCost, pricing, navigate]);
 
   return (
     <div className="border rounded-xl p-4">
@@ -77,8 +100,8 @@ export default function RequestSetting({ uploadedFile, modelData }) {
         >
           <option value="">Select Printer</option>
           {catalog.printers.map((printer) => (
-            <option key={printer.printerId} value={printer.printerId}>
-              {printer.printer || printer.Printer} - {printer.status || printer.Status}
+            <option key={printer.printerId} value={printer.Printer}>
+              {printer.printer || printer.Printer}
             </option>
           ))}
         </select>
@@ -182,4 +205,36 @@ export default function RequestSetting({ uploadedFile, modelData }) {
     </div>
   );
 }
+
+
+
+
+
+const buildCheckoutData = (
+  result,
+  session,
+  uploadedFile,
+  formData,
+  selectedMaterialData,
+  estimatedHours,
+  estimatedCost,
+  materialCost,
+  pricing
+) => ({
+  orderId: result.orderId,
+  userID: result.userID,
+  userName: session.user.fullName,
+  fileName: uploadedFile.name,
+  printer: formData.selectedPrinter,
+  material: selectedMaterialData?.materialName,
+  quantity: formData.quantity,
+  estimatedHours,
+  estimatedCost,
+  materialCost,
+  subTotal: pricing.subtotal,
+  discount: formData.discount,
+  grandTotal: pricing.grandTotal,
+});
+
+
 
