@@ -20,7 +20,7 @@ const finishProfile = async() => {
   try {
 
     const user = JSON.parse(
-      localStorage.getItem("amcen_user")
+      s.getItem("amcen_user")
     );
 
     let profileImgId = profile.profileImgId;

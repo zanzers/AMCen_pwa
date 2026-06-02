@@ -9,7 +9,7 @@ export async function DeleteOrder(order, navigate) {
 
   if (!confirmed) return;
 
-  const session = JSON.parse(localStorage.getItem("amcen_user")) || {};
+  const session = JSON.parse(sessionStorage.getItem("amcen_user")) || {};
 
   console.log("Session Delete", session.token);
 
@@ -35,7 +35,7 @@ export async function CancelOrder(order, navigate) {
 
   if (!confirmed) return;
 
-  const session = JSON.parse(localStorage.getItem("amcen_user")) || {};
+  const session = JSON.parse(sessionStorage.getItem("amcen_user")) || {};
 
   const result =
     await RequestData(

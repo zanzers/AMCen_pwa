@@ -41,12 +41,9 @@ export default function Login() {
 
       }
 
-      localStorage.setItem(
-        "amcen_user",
-        JSON.stringify(data)
-      );
-
+      sessionStorage.setItem("amcen_user",JSON.stringify(data));
       data.user.profileImgId ? navigate("/user/dashboard") : navigate("/user/profile-setup");
+
 
     } catch(err){
 

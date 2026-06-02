@@ -72,7 +72,7 @@ export default function RequestSetting({ uploadedFile, modelData }) {
         return;
       }
 
-      const session = JSON.parse(localStorage.getItem("amcen_user")) || {};
+      const session = JSON.parse(sessionStorage.getItem("amcen_user")) || {};
 
       const base64 = await fileToBase64(uploadedFile);
 

@@ -17,7 +17,7 @@ export default function Order({ setActivateTab }) {
 
       setLoading(true);
 
-      const session = JSON.parse(localStorage.getItem("amcen_user"));
+      const session = JSON.parse(sessionStorage.getItem("amcen_user"));
 
       const data = await RequestData(
           "getUserOrders",

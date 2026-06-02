@@ -27,7 +27,7 @@ export default function Checkout() {
       setLoading(true);
       setSubmissionStep("uploading");
 
-      const session = JSON.parse(localStorage.getItem( "amcen_user")) || {};
+      const session = JSON.parse(sessionStorage.getItem( "amcen_user")) || {};
       const token = session.token;
 
       if (!token) {

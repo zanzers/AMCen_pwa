@@ -3,7 +3,7 @@ import { API_URL } from "../../../../../api/api";
 // REQUEST MATERIALS AND PRINTERS
 export async function RequestData(action, payload={}) {
 
-  // console.log("RequestData called with:", { action, payload });
+  console.log("RequestData called with:", { action, payload });
 
     try{
         const res = await fetch(
@@ -38,7 +38,7 @@ export async function handleSaveRequest({ uploadedFile, selectedMaterial, quanti
 
     setLoading(true);
 
-    const session = JSON.parse(localStorage.getItem("amcen_user")) || {};
+    const session = JSON.parse(sessionStorage.getItem("amcen_user")) || {};
     const token = session.token;
     if (!token) throw new Error("Not authenticated");
 
