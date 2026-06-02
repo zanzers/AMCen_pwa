@@ -27,7 +27,7 @@ export default function Dashboar(){
             case "Request":
                 return <RequestTab />
             case "Orders":
-                return <OrderTab />
+                return <OrderTab setActivateTab={setActivateTab} />
             case "Events":
                 return <EventsTab />
             case "Inbox":

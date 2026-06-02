@@ -7,6 +7,9 @@ import Profile_setup from "./layouts/Profile_setup/ProfileSetup";
 import Dashboard from "./pages/client/Dashboard";
 import ProfileComple from "./layouts/Profile_setup/ProfileComplete";
 import Checkout from "./pages/client/tabs/Checkout";
+import ViewOrders from "./pages/client/sections/OrderComponents/ViewOrder";
+
+
 
 export default function App() {
   return (
@@ -21,8 +24,9 @@ export default function App() {
       <Route path="/user/profile-setup" element={<Profile_setup />} />
       <Route path="/user/ProfileComple" element={<ProfileComple />} />
       <Route path="/user/Dashboard" element={<Dashboard />} />
+      <Route path="/checkout" element={<Checkout />} />
       <Route path="/checkout/:orderId" element={<Checkout />} />
-
+      <Route path="/user/orders/:orderId" element={<ViewOrders />} />
 
 
 

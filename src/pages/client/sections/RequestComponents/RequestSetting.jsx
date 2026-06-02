@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { RequestData, handleSaveRequest } from "./services/RequestServices";
+import { RequestData } from "./services/RequestServices";
 import {RoundUp} from "../../../../utils/helpers";
 
 
@@ -54,33 +54,55 @@ export default function RequestSetting({ uploadedFile, modelData }) {
 
   const navigate = useNavigate();
 
-  const handleSave = useCallback(async () => {
-    const result = await handleSaveRequest({
-      uploadedFile,
-      selectedMaterial: formData.selectedMaterial,
-      quantity: formData.quantity,
-      setLoading,
+  async function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
     });
+  }
 
-    if (!result?.success) return;
+  const handleSave = useCallback(async () => {
+    try {
+      setLoading(true);
 
-    const session = JSON.parse(localStorage.getItem("amcen_user"));
-    const checkoutData = buildCheckoutData(
-      result,
-      session,
-      uploadedFile,
-      formData,
-      selectedMaterialData,
-      estimatedHours,
-      estimatedCost,
-      materialCost,
-      pricing
-    );
+      if (!uploadedFile) {
+        alert("Please upload STL file");
+        return;
+      }
 
-    sessionStorage.setItem("checkout_data", JSON.stringify(checkoutData));
-    navigate(`/checkout/${result.orderId}`);
+      const session = JSON.parse(localStorage.getItem("amcen_user")) || {};
 
-}, [uploadedFile, formData, selectedMaterialData, estimatedHours, estimatedCost, materialCost, pricing, navigate]);
+      const base64 = await fileToBase64(uploadedFile);
+
+      const checkoutData = {
+        userId: session.user?.userId,
+        userName: session.user?.fullName,
+        fileName: uploadedFile.name,
+        mimeType: uploadedFile.type,
+        base64,
+        printerName: formData.selectedPrinter,
+        materialId: formData.selectedMaterial,
+        materialName: selectedMaterialData?.materialName,
+        quantity: formData.quantity,
+        estimatedHours,
+        estimatedCost,
+        materialCost,
+        subTotal: pricing.subtotal,
+        discount: formData.discount,
+        grandTotal: pricing.grandTotal,
+      };
+
+      sessionStorage.setItem("checkout_data", JSON.stringify(checkoutData));
+      navigate(`/checkout`);
+    } catch (err) {
+      console.error(err);
+      alert(err?.message || "Failed to prepare checkout");
+    } finally {
+      setLoading(false);
+    }
+  }, [uploadedFile, formData, selectedMaterialData, estimatedHours, estimatedCost, materialCost, pricing, navigate]);
 
   return (
     <div className="border rounded-xl p-4">
@@ -185,20 +207,10 @@ export default function RequestSetting({ uploadedFile, modelData }) {
       </div>
 
       <div className="flex gap-3">
-        <button 
-          onClick={handleSave}
-          disabled={loading}
-          className="px-4 py-2 rounded-lg bg-black text-white disabled:opacity-50"
-        >
-          {loading ? "Saving..." : "Save"}
-        </button>
+      
 
-        <button 
-          onClick={handleSave}
-          disabled={loading}
-          className="px-4 py-2 rounded-lg border disabled:opacity-50"
-        >
-          {loading ? "Saving..." : "Save & Continue"}
+        <button onClick={handleSave} disabled={loading} className="px-4 py-2 rounded-lg border disabled:opacity-50">
+          {loading ? "Saving..." : "Continue"}
         </button>
       </div>
 
@@ -206,35 +218,6 @@ export default function RequestSetting({ uploadedFile, modelData }) {
   );
 }
 
-
-
-
-
-const buildCheckoutData = (
-  result,
-  session,
-  uploadedFile,
-  formData,
-  selectedMaterialData,
-  estimatedHours,
-  estimatedCost,
-  materialCost,
-  pricing
-) => ({
-  orderId: result.orderId,
-  userID: result.userID,
-  userName: session.user.fullName,
-  fileName: uploadedFile.name,
-  printer: formData.selectedPrinter,
-  material: selectedMaterialData?.materialName,
-  quantity: formData.quantity,
-  estimatedHours,
-  estimatedCost,
-  materialCost,
-  subTotal: pricing.subtotal,
-  discount: formData.discount,
-  grandTotal: pricing.grandTotal,
-});
 
 
 

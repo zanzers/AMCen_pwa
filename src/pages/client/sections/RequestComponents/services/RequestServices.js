@@ -3,6 +3,8 @@ import { API_URL } from "../../../../../api/api";
 // REQUEST MATERIALS AND PRINTERS
 export async function RequestData(action, payload={}) {
 
+  // console.log("RequestData called with:", { action, payload });
+
     try{
         const res = await fetch(
             API_URL, {

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {useState} from "react";
 import { RequestData } from "../sections/RequestComponents/services/RequestServices";
+import LoaderBar from "../../../utils/loaderBar";
 
 import {RequestSubmitted, RequestNoData} from "../sections/RequestComponents/RequestSubmitted";
 
@@ -9,6 +10,8 @@ export default function Checkout() {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [countdown, setCountdown] = useState(5);
+  const [loading, setLoading] = useState(false);
+  const [submissionStep, setSubmissionStep] = useState(null);
 
 
   const checkoutData =
@@ -21,6 +24,8 @@ export default function Checkout() {
   async function handleSubmitRequest() {
 
     try {
+      setLoading(true);
+      setSubmissionStep("uploading");
 
       const session = JSON.parse(localStorage.getItem( "amcen_user")) || {};
       const token = session.token;
@@ -30,28 +35,33 @@ export default function Checkout() {
         return;
       }
 
-      const response =
-        await RequestData(
-          "saveOrderDetails",
-          {
+      // First upload the STL file (returns orderId), then save order details (invoice)
+      const uploadPayload = {
+        token,
+        fileName: checkoutData.fileName,
+        mimeType: checkoutData.mimeType,
+        base64: checkoutData.base64,
+        materialId: checkoutData.materialId,
+        quantity: checkoutData.quantity,
+      };
 
-            token,
+      const uploadResp = await RequestData("uploadSTLFile", uploadPayload);
+      console.log("Upload response:", uploadResp);
 
-            ...checkoutData,
-          }
-        );
+      if (!uploadResp?.success) {
+        throw new Error(uploadResp?.message || "Failed to upload STL file");
+      }
+      // mark generation step (server may return orderId immediately but we show the step)
+      setSubmissionStep("generating");
+      const orderId = uploadResp.orderId;
 
-      console.log(
-        "Invoice Saved:",
-        response
-      );
+      setSubmissionStep("submitting");
+      const response = await RequestData("saveOrderDetails", { token, orderId, ...checkoutData });
+
+      console.log("Invoice Saved:", response);
 
       if (!response?.success) {
-
-        throw new Error(
-          response?.message ||
-          "Failed to submit request"
-        );
+        throw new Error(response?.message || "Failed to submit request");
       }
 
       setSubmitted(true);
@@ -75,6 +85,13 @@ export default function Checkout() {
       console.error(err);
 
       alert(err.message);
+      setSubmissionStep(null);
+      setLoading(false);
+      return;
+    }
+    finally {
+      // ensure loading is cleared if submission completed (submitted state will keep buttons disabled)
+      setLoading(false);
     }
   }
 
@@ -88,21 +105,14 @@ export default function Checkout() {
   return (
     <div className="max-w-3xl mx-auto p-6">
 
+      <LoaderBar open={loading} step={submissionStep} />
+
       <h1 className=" text-3xl font-semibold mb-6">
         Checkout
       </h1>
 
       <div className="border rounded-xl p-6 space-y-4">
-        <div className="flex justify-between">
-          <span>
-            Order ID
-          </span>
-          <span>
-            {checkoutData.orderId}
-          </span>
-        </div>
-
-
+        
         <div className="flex justify-between">
           <span>
             User Name
@@ -271,11 +281,11 @@ export default function Checkout() {
       )}
 
       <div className="flex justify-between mt-6">
-        <button onClick={() => navigate(-1)} className="px-4 py-2 border rounded-lg" disabled={submitted}>
+        <button onClick={() => navigate(-1)} className="px-4 py-2 border rounded-lg" disabled={submitted || loading}>
           Back
         </button>
-        <button onClick={handleSubmitRequest} className="px-4 py-2 bg-black text-white rounded-lg disabled:opacity-50" disabled={submitted}>
-          {submitted ? "Submitted" : "Submit Request"}
+        <button onClick={handleSubmitRequest} className="px-4 py-2 bg-black text-white rounded-lg disabled:opacity-50" disabled={submitted || loading}>
+          {submitted ? "Submitted" : loading ? "Submitting..." : "Submit Request"}
         </button>
       </div>
 

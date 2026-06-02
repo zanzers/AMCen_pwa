@@ -8,6 +8,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Upload from "../pages/uploads/Upload";
 import Checkout from "../pages/client/tabs/Checkout";
+import ViewOrders from "../pages/client/sections/OrderComponents/ViewOrder";
 
 export default function Router() {
 
@@ -36,10 +37,16 @@ export default function Router() {
                 element={<Checkout />}
                 />
 
+                <Route
+                path="/user/orders/:orderId"
+                element={<ViewOrders />}
+                />
+
             </Routes>
 
         
         </BrowserRouter>
     )
 }
+
 
