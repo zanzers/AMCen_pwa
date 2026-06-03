@@ -8,6 +8,7 @@ import Dashboard from "./pages/client/Dashboard";
 import ProfileComple from "./layouts/Profile_setup/ProfileComplete";
 import Checkout from "./pages/client/tabs/Checkout";
 import ViewOrders from "./pages/client/sections/OrderComponents/ViewOrder";
+import ViewEvents from "./pages/client/sections/EventsComponents/ViewEvent";
 
 
 
@@ -27,6 +28,7 @@ export default function App() {
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/checkout/:orderId" element={<Checkout />} />
       <Route path="/user/orders/:orderId" element={<ViewOrders />} />
+      <Route path="/user/events/:eventId" element={<ViewEvents />} />
 
 
 

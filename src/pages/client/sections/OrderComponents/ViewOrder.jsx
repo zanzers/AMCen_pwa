@@ -23,7 +23,7 @@ export default function ViewOrder() {
       setLoading(true);
       setError(null);
 
-      const session = JSON.parse(SessionStorage.getItem("amcen_user")) || {};
+      const session = JSON.parse(sessionStorage.getItem("amcen_user")) || {};
       const data = await RequestData(
           "getOrderDetails",
           {

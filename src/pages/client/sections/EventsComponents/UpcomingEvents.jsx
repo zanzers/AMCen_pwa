@@ -1,16 +1,19 @@
 import {RequestData} from "../RequestComponents/services/RequestServices";
 import {useEffect, useState} from "react";
-
+import EventCard from "../EventsComponents/EventsCard";
 
 export default function UpcomingEvents() {
 
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const session = JSON.parse(sessionStorage.getItem("amcen_user"));
+    
+
 
     useEffect(() => {
         async function loadEvents() {
             try{
-                const response = await RequestData("getUpcomingEvents");
+                const response = await RequestData("getUpcomingEvents",{token: session.token, userId: session.user.userId,});
     
                 console.log(response);
                 setEvents(response || []);
@@ -45,32 +48,7 @@ export default function UpcomingEvents() {
       <div className="space-y-4">
 
         {events.map((event) => (
-          <div
-            key={event.eventId}
-            className="flex items-center justify-between rounded-lg border p-4"
-          >
-            <div>
-              <h3 className="font-medium">
-                {event.title}
-              </h3>
-
-              <p className="text-sm text-gray-500">
-                {formatDateRange(event.start_date, event.end_date)}
-              </p>
-              <p className="text-sm text-gray-500">
-                {formatTimeRange(event.start_time, event.end_time)}
-              </p>
-            
-
-              <p className="text-sm text-green-600">
-                {event.slots} slots available
-              </p>
-            </div>
-
-            <button className="rounded-lg border px-4 py-2 hover:bg-gray-100">
-              Register
-            </button>
-          </div>
+          <EventCard key={event.eventId} event={event} />
         ))}
 
       </div>
@@ -89,33 +67,3 @@ export default function UpcomingEvents() {
 
 
 
-
-function formatDate(dateString) {
-  return new Date(dateString).toLocaleDateString(
-    "en-PH",
-    {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }
-  );
-}
-
-function formatTime(timeString) {
-  return new Date(timeString).toLocaleTimeString(
-    "en-PH",
-    {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    }
-  );
-}
-
-function formatDateRange(startDate, endDate) {
-  return `${formatDate(startDate)} to ${formatDate(endDate)}`;
-}
-
-function formatTimeRange(startTime, endTime) {
-  return `${formatTime(startTime)} to ${formatTime(endTime)}`;
-}
