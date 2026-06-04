@@ -2,20 +2,7 @@ import { useMemo, useState } from "react";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December",];
 
 const EVENTS = [
   {
@@ -55,7 +42,10 @@ const EVENT_STYLES = {
     "bg-red-100 text-red-700 border-red-200",
 };
 
-export default function Calendar() {
+export default function Calendar({ events}) {
+
+  console.log("Dev Skip this Calendar features:");
+  console.log("Calendar received events:", events);
   const [currentDate, setCurrentDate] = useState(
     new Date()
   );

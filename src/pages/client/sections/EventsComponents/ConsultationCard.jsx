@@ -1,4 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
+
 export default function ConsultationCard() {
+  const navigate = useNavigate();
+
+    const session = JSON.parse(sessionStorage.getItem("amcen_user"));
+    console.log("ConsultationCard session:", session);
+
+
   return (
     <div className="rounded-xl border bg-white p-6 shadow-sm">
 
@@ -17,12 +26,13 @@ export default function ConsultationCard() {
       </p>
 
 
-      <button
-        className="mt-4 rounded-lg bg-green-600 px-4 py-2 text-white transition hover:bg-green-700"
-      >
+      <button className="mt-4 rounded-lg bg-green-600 px-4 py-2 text-white transition hover:bg-green-700"
+        onClick={() => navigate(`/user/events/consultationForm/${session.user.userId}`)}>
         Request Consultation
       </button>
 
     </div>
   );
 }
+
+

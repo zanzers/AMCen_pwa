@@ -9,7 +9,7 @@ import ProfileComple from "./layouts/Profile_setup/ProfileComplete";
 import Checkout from "./pages/client/tabs/Checkout";
 import ViewOrders from "./pages/client/sections/OrderComponents/ViewOrder";
 import ViewEvents from "./pages/client/sections/EventsComponents/ViewEvent";
-
+import ConsultationForm from "./pages/client/sections/EventsComponents/ConsulataionForm";
 
 
 export default function App() {
@@ -29,6 +29,7 @@ export default function App() {
       <Route path="/checkout/:orderId" element={<Checkout />} />
       <Route path="/user/orders/:orderId" element={<ViewOrders />} />
       <Route path="/user/events/:eventId" element={<ViewEvents />} />
+      <Route path="/user/events/consultationForm/:userId" element={<ConsultationForm />} />
 
 
 

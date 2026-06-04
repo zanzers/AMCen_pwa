@@ -10,6 +10,7 @@ import Upload from "../pages/uploads/Upload";
 import Checkout from "../pages/client/tabs/Checkout";
 import ViewOrders from "../pages/client/sections/OrderComponents/ViewOrder";
 import ViewEvents from "../pages/client/sections/EventsComponents/ViewEvent";   
+import ConsultationForm from "../pages/client/sections/EventsComponents/ConsulataionForm";
 
 export default function Router() {
 
@@ -46,6 +47,10 @@ export default function Router() {
                 <Route
                 path="/user/events/:eventId"
                 element={<ViewEvents />}
+                />
+                <Route
+                path="/user/events/consultationForm/:userId"
+                element={<ConsultationForm />}
                 />
 
             </Routes>

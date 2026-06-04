@@ -1,29 +1,52 @@
-export default function NextEventCard() {
+import { useNavigate } from "react-router-dom";
+
+
+export default function NextEventCard({ event }) {
+  
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-xl border bg-white p-6 shadow-sm">
+      {!event ? (
+        <div className="flex items-center justify-center py-12">
+          <p className="text-gray-500">Loading Upcoming event...</p>
+        </div>
+      ) : (
+        <>
+          <h2 className="mb-4 text-xl font-semibold">
+            NEXT EVENT
+          </h2>
+    
+          <div className="space-y-4">
 
-      <span className="text-sm font-medium text-blue-600">
-        NEXT EVENT
-      </span>
+            <h2>
+              {event.title}
+            </h2>
 
-      <h2 className="mt-2 text-xl font-bold">
-        Arduino Fundamentals Workshop
-      </h2>
+            <p className="mt-2 text-gray-500">
+              {/* {formatDate(event.start_date)} */}
+            </p>
 
-      <p className="mt-2 text-gray-500">
-        June 15, 2026 • 1:00 PM - 4:00 PM
-      </p>
+            <p className="mt-1 text-sm text-green-600">
+              {event.slots} slots available
+            </p>
 
-      <p className="mt-1 text-sm text-green-600">
-        15 slots remaining
-      </p>
 
-      <button
-        className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
-      >
-        Register Now
-      </button>
+            <button
+              onClick={() =>
+                navigate(`/user/events/${event.eventId}`, {
+                  state: { event }
+                })
+              }
+              className="rounded-lg border px-4 py-2 hover:bg-gray-100"
+            >
+              View Details
+            </button>
 
+    
+          </div>
+        </>
+      )}
     </div>
   );
 }
