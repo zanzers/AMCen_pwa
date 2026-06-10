@@ -1,8 +1,18 @@
-import { Bell, Settings} from "lucide-react";
+import { Bell } from "lucide-react";
 import AMCenLogo from "../../../../components/svg_components/AMCenIcons";
 import HeaderTab from "../HeaderComponents/HeaderTab";
+import { useNavigate } from "react-router-dom";
+import UserImage from "../../UserPage/UserImage";
+
 
 export default function DashboardHeader({activeTab, setActivateTab}) {
+
+
+
+  const navigate = useNavigate();
+  const session = JSON.parse(sessionStorage.getItem("amcen_user")) || {};
+  
+   console.log("UserPage session:", session);
   return (
     <header className=" w-full h-16 px-6 flex items-center ">
 
@@ -27,24 +37,9 @@ export default function DashboardHeader({activeTab, setActivateTab}) {
 
 
   {/* RIGHT SIDE */}
-  <div className="flex items-center gap-4 min-w-fit">
+  <div className="flex items-center align-middle gap-4 min-w-fit">
 
-    {/* SETTINGS */}
-    <button
-      className="
-        w-9
-        h-9
-        rounded-full
-        flex
-        items-center
-        justify-center
-         bg-[#F0EFEC]
-        hover:bg-[#FDFDFB]
-        transition
-      "
-    >
-      <Settings size={18} />
-    </button>
+ 
 
     {/* NOTIFICATION */}
     <button
@@ -67,12 +62,11 @@ export default function DashboardHeader({activeTab, setActivateTab}) {
     </button>
 
     {/* PROFILE */}
-    <button className="flex items-center gap-3 pl-2">
-      <img
-        src="https://i.pravatar.cc/100"
-        alt="profile"
-        className="w-11 h-11 rounded-full object-cover"
-      />
+    <button  className="flex items-center gap-3 pl-2" onClick={() => navigate(`//user/profile/${session.user.userId}`)}>
+       
+       <div className="">
+        <UserImage profileImgId={session.user?.profileImgId} img_width={34} img_height={34} text_size={12} />
+       </div>
     </button>
 
     

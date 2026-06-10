@@ -10,18 +10,15 @@ import Checkout from "./pages/client/tabs/Checkout";
 import ViewOrders from "./pages/client/sections/OrderComponents/ViewOrder";
 import ViewEvents from "./pages/client/sections/EventsComponents/ViewEvent";
 import ConsultationForm from "./pages/client/sections/EventsComponents/ConsulataionForm";
-
+import UserPage from "./pages/client/UserPage/UserPage";
 
 export default function App() {
   return (
     <Routes>
 
       <Route path="/" element={<LandingPage />} />
-
       <Route path="/login" element={<Login />} />
-
       <Route path="/register" element={<Register />} />
-
       <Route path="/user/profile-setup" element={<Profile_setup />} />
       <Route path="/user/ProfileComple" element={<ProfileComple />} />
       <Route path="/user/Dashboard" element={<Dashboard />} />
@@ -30,6 +27,7 @@ export default function App() {
       <Route path="/user/orders/:orderId" element={<ViewOrders />} />
       <Route path="/user/events/:eventId" element={<ViewEvents />} />
       <Route path="/user/events/consultationForm/:userId" element={<ConsultationForm />} />
+      <Route path="/user/profile/:userId" element={<UserPage />} />
 
 
 

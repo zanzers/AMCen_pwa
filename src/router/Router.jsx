@@ -11,6 +11,8 @@ import Checkout from "../pages/client/tabs/Checkout";
 import ViewOrders from "../pages/client/sections/OrderComponents/ViewOrder";
 import ViewEvents from "../pages/client/sections/EventsComponents/ViewEvent";   
 import ConsultationForm from "../pages/client/sections/EventsComponents/ConsulataionForm";
+import  UserPage from "../pages/client/UserPage/UserPage";  
+
 
 export default function Router() {
 
@@ -19,39 +21,21 @@ export default function Router() {
         
             <Routes>
 
-                <Route
-                path="/"
-                element={<Login />}
-                />
+                <Route path="/" element={<Login />}/>
 
-                <Route
-                path="/register"
-                element={<Register />}
-                />
+                <Route path="/register" element={<Register />}/>
 
-                <Route
-                path="/upload"
-                element={<Upload />}
-                />
+                <Route path="/upload" element={<Upload />}/>
 
-                <Route
-                path="/checkout/:orderId"
-                element={<Checkout />}
-                />
+                <Route path="/checkout/:orderId" element={<Checkout />}/>
 
-                <Route
-                path="/user/orders/:orderId"
-                element={<ViewOrders />}
-                />
+                <Route path="/user/orders/:orderId" element={<ViewOrders />}/>
 
-                <Route
-                path="/user/events/:eventId"
-                element={<ViewEvents />}
-                />
-                <Route
-                path="/user/events/consultationForm/:userId"
-                element={<ConsultationForm />}
-                />
+                <Route path="/user/events/:eventId" element={<ViewEvents />}/>
+
+                <Route path="/user/events/consultationForm/:userId" element={<ConsultationForm />}/>
+                
+                <Route path="/user/profile/:userId" element={<UserPage />}/>
 
             </Routes>
 
